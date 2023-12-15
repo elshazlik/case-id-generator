@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case ID Generator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h3 {
+            color: #1565c0;
+        }
+        .btn {
+            background-color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title blue-text text-darken-2">Case ID Generator</span>
+                        <div class="input-field col s12">
+                            <select id="caseType" required>
+                                <option value="" disabled selected>Select case type</option>
+                                <option value="flight">Flight</option>
+                                <option value="outgoing">Outgoing</option>
+                                <option value="mice">MICE</option>
+                                <option value="traffic">Traffic/Transportation</option>
+                                <option value="visa">Visa</option>
+                                <option value="dummy_reservations">Dummy Reservations</option>
+                            </select>
+                            <label for="caseType">Case Type</label>
+                        </div>
+                        <div class="center-align">
+                            <button class="btn waves-effect waves-light" type="button" onclick="generateCaseID()">Generate Case ID</button>
+                        </div>
+                        <div class="center-align">
+                            <p id="caseID" class="blue-text text-darken-2"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems);
+        });
+
+        function generateCaseID() {
+            var caseType = document.getElementById('caseType').value;
+            if (caseType) {
+                var caseIDPrefix = getCaseIDPrefix(caseType);
+                var caseIDSuffix = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
+                var caseID = caseIDPrefix + '-' + caseIDSuffix;
+                document.getElementById('caseID').textContent = "Generated Case ID (" + caseType + "): " + caseID;
+            } else {
+                alert('Please select a case type.');
+            }
+        }
+
+        function getCaseIDPrefix(caseType) {
+            var types = {
+                "flight": "FL",
+                "outgoing": "OG",
+                "mice": "MC",
+                "traffic": "TR",
+                "visa": "VS",
+                "dummy_reservations": "DR"
+            };
+            return types[caseType];
+        }
+    </script>
+</body>
+</html>
